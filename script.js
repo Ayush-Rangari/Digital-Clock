@@ -1,7 +1,7 @@
 function digitalClock() {
   let period;
   const now = new Date();
-  const hours = now.getHours().toString().padStart(2, "0");
+  let hours = now.getHours();
   const minutes = now.getMinutes().toString().padStart(2, "0");
   const seconds = now.getSeconds().toString().padStart(2, "0");
   const date = now.getDate();
@@ -36,12 +36,16 @@ function digitalClock() {
     "Saturday",
   ];
 
-  if (hours >= 0 && hours < 12) {
-    period = "AM";
-    
-  } else {
+  if (hours > 12) {
     period = "PM";
+    hours = hours % 12;
+    if (hours === 0) hours = 12;
+  } else {
+    period = "AM";
+    if (hours === 0) hours = 12;
   }
+
+  hours = hours.toString().padStart(2, "0");
 
   time.textContent = `${hours} : ${minutes} : ${seconds} ${period}`;
 
